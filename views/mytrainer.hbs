@@ -1,0 +1,99 @@
+<style>
+    #content {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    }
+
+    #question {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #007BFF;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #div_img {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+<script>
+    let currentQuestionIndex = 0;
+    let totalQuestions = 0;
+
+    async function fetchTotalQuestions() {
+        const response = await fetch('/trainer/total');
+        totalQuestions = await response.json();
+    }
+
+    async function fetchQuestion(index) {
+        const response = await fetch(`/trainer/question/${index + 1}`);
+        const question = await response.json();
+        displayQuestion(question, index);
+    }
+
+    function displayQuestion(question, index) {
+        const questionElement = document.getElementById('question');
+        questionElement.innerHTML = question.question;
+
+        const optionsElement = document.getElementById('options');
+        optionsElement.innerHTML = '';
+        question.options.forEach((option, index) => {
+            const optionButton = document.createElement('button');
+            optionButton.innerHTML = option;
+            optionButton.onclick = () => handleAnswer(index === question.correctAnswer - 1);
+            optionsElement.appendChild(optionButton);
+        });
+        const divImg = document.getElementById('div_img');
+        divImg.innerHTML = '';
+        const img = document.createElement("img");
+        img.src = `../img/quest${index + 1}.png`;
+        img.alt = '';
+        divImg.appendChild(img);
+    }
+
+    function handleAnswer(isCorrect) {
+        alert(isCorrect ? 'Правильный ответ!' : 'Неправильный ответ.');
+        if (isCorrect) {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < totalQuestions) {
+                fetchQuestion(currentQuestionIndex);
+            } else {
+                alert('Вы завершили тренажер!');
+                location.reload(true);
+            }
+        }
+    }
+
+    window.onload = async () => {
+        await fetchTotalQuestions();
+        fetchQuestion(currentQuestionIndex);
+    };
+</script>
+<div id="content">
+    <div id="question"></div>
+    <div id="options"></div>
+    <div id="div_img"></div>
+</div>

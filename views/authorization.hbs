@@ -1,0 +1,21 @@
+<h1>Вход в систему</h1>
+
+{{#if error}}
+    <p style="color: red;">{{ error }}</p>
+{{/if}}
+
+<form action="/auth/login" method="POST">
+    <div>
+        <label>
+            Логин:
+            <input type="text" name="username" placeholder="Введите логин" required>
+        </label>
+    </div>
+    <div>
+        <label>
+            Пароль:
+            <input type="password" name="password" placeholder="Введите пароль" required>
+        </label>
+    </div>
+    <button type="submit">Войти</button>
+</form>

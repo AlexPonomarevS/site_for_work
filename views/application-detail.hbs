@@ -1,0 +1,93 @@
+<h1>Детали заявки: {{application.name}}</h1>
+<p><strong>Описание:</strong> {{application.description}}</p>
+<p><strong>Клиент:</strong> {{application.username}}</p>
+<p><strong>Дата создания:</strong> {{application.createdAt}}</p>
+<p><strong>Статус:</strong> {{application.status}}</p>
+
+{{!-- Если текущий пользователь администратор, показываем форму для изменения статуса --}}
+{{#if isAdmin}}
+    <div id="statusBlock">
+        <label for="statusSelect"><strong>Изменить статус:</strong></label>
+        <select id="statusSelect">
+            <option value="WORK" {{#if (eq application.status "WORK")}}selected{{/if}}>WORK</option>
+            <option value="CLOSED" {{#if (eq application.status "CLOSED")}}selected{{/if}}>CLOSED</option>
+            <option value="OPEN" {{#if (eq application.status "OPEN")}}selected{{/if}}>OPEN</option>
+            <option value="FORMALIZED_PGR_WAIT" {{#if (eq application.status "FORMALIZED_PGR_WAIT")}}selected{{/if}}>FORMALIZED_PGR_WAIT</option>
+            <option value="FORMALIZED_POESO_GARANTIA" {{#if (eq application.status "FORMALIZED_POESO_GARANTIA")}}selected{{/if}}>FORMALIZED_POESO_GARANTIA</option>
+            <option value="FORMALIZED_POESO_PGR" {{#if (eq application.status "FORMALIZED_POESO_PGR")}}selected{{/if}}>FORMALIZED_POESO_PGR</option>
+            <option value="FORMALIZED_POESO_REPLACEMENT" {{#if (eq application.status "FORMALIZED_POESO_REPLACEMENT")}}selected{{/if}}>FORMALIZED_POESO_REPLACEMENT</option>
+            <option value="FORMALIZED_POESO_CONSULTATION" {{#if (eq application.status "FORMALIZED_POESO_CONSULTATION")}}selected{{/if}}>FORMALIZED_POESO_CONSULTATION</option>
+            <option value="FORMALIZED_POESO_VR_GARANTIA" {{#if (eq application.status "FORMALIZED_POESO_VR_GARANTIA")}}selected{{/if}}>FORMALIZED_POESO_VR_GARANTIA</option>
+            <option value="FORMALIZED_POESO_VR_PGR" {{#if (eq application.status "FORMALIZED_POESO_VR_PGR")}}selected{{/if}}>FORMALIZED_POESO_VR_PGR</option>
+            <option value="FORMALIZED_POESO_REPAIR_KSA_WITHOUT_ZIP" {{#if (eq application.status "FORMALIZED_POESO_REPAIR_KSA_WITHOUT_ZIP")}}selected{{/if}}>FORMALIZED_POESO_REPAIR_KSA_WITHOUT_ZIP</option>
+            <option value="FORMALIZED_POESO_REPAIR_KSA_WITH_ZIP" {{#if (eq application.status "FORMALIZED_POESO_REPAIR_KSA_WITH_ZIP")}}selected{{/if}}>FORMALIZED_POESO_REPAIR_KSA_WITH_ZIP</option>
+            <option value="FORMALIZED_DEV_REQUEST" {{#if (eq application.status "FORMALIZED_DEV_REQUEST")}}selected{{/if}}>FORMALIZED_DEV_REQUEST</option>
+        </select>
+        <button id="updateStatusBtn">Обновить статус</button>
+    </div>
+{{/if}}
+
+<hr>
+
+<h2>Заметки</h2>
+<ul id="notesList">
+    {{#if application.notes}}
+        {{#each application.notes}}
+            <li>
+                <p>{{this.content}}</p>
+                <small>Автор: {{this.createdBy}} | {{this.createdAt}}</small>
+            </li>
+        {{/each}}
+    {{else}}
+        <p>Нет заметок для этой заявки</p>
+    {{/if}}
+</ul>
+
+<hr>
+
+<h2>Добавить заметку</h2>
+<form id="noteForm">
+    <textarea id="noteContent" placeholder="Введите заметку" required></textarea>
+    <button type="submit">Добавить заметку</button>
+</form>
+
+<script>
+    // Обработчик формы для добавления заметки (как ранее)
+    document.getElementById('noteForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const content = document.getElementById('noteContent').value;
+        const applicationId = "{{application.id}}";
+        const response = await fetch(`/applications/${applicationId}/notes`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content })
+        });
+        if (response.ok) {
+            location.reload();
+        } else {
+            alert('Ошибка при добавлении заметки');
+        }
+    });
+
+    // Обработчик для обновления статуса
+    const updateStatusBtn = document.getElementById('updateStatusBtn');
+    if (updateStatusBtn) {
+        updateStatusBtn.addEventListener('click', async function() {
+            const select = document.getElementById('statusSelect');
+            const newStatus = select.value;
+            const applicationId = "{{application.id}}";
+            const response = await fetch(`/applications/${applicationId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            if (response.ok) {
+                // Можно показать уведомление или обновить страницу
+                alert('Статус обновлён');
+                location.reload();
+            } else {
+                alert('Ошибка при обновлении статуса');
+            }
+        });
+    }
+</script>

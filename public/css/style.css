@@ -1,0 +1,186 @@
+.body{
+    background-color: skyblue;
+    margin: 0;
+}
+
+.header{
+    width: 100%;
+    margin: 0;
+}
+
+.header__logo{
+    width: 100%;
+}
+
+.header__menu{
+    margin: 10px 0 15px 5%;
+    display: flex;
+    gap: 20px;
+}
+
+.header__menu__item{
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    background-color: aliceblue;
+    border-radius: 10px 0 10px 0;
+}
+
+.main{
+    margin: 10px 30px;
+    background-color: aliceblue;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+@media (width <= 845px ) {
+    .header__menu{
+        flex-direction: column;
+    }
+}
+
+.footer{
+    padding: 20px;
+    background-color: aliceblue;
+    text-align: center;
+}
+
+.footer__title{
+    background-color: skyblue;
+    padding: 7px;
+    border: solid 1px steelblue;
+    border-radius: 5px;
+}
+
+.footer__section{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.service__menu{
+    margin: 20px;
+    padding: 20px;
+    background-color: aliceblue;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: repeat(2,1fr);
+    gap: 20px;
+    text-align: center;
+}
+
+.service__button-link{
+    text-decoration: none;
+    color: black;
+}
+
+.card__button{
+    border: 1px solid steelblue;
+}
+
+.app__title {
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.create__app__form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.create__app__form-input,
+.create__app__form-textarea,
+.create__app__form-button {
+    width: 70%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.create__app__form-input:focus,
+.create__app__form-textarea:focus {
+    outline: none;
+    border-color: #777;
+}
+
+.create__app__form-button {
+    background: #5cb85c;
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+}
+
+.create__app__form-button:hover {
+    background: #4cae4c;
+}
+
+.form__result {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 10px;
+    background: #dff0d8;
+    border: 1px solid #d6e9c6;
+    border-radius: 4px;
+    color: #3c763d;
+}
+
+.list__app {
+    list-style: none;
+    padding: 0;
+}
+
+.list__app-item {
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    gap: 30px;
+}
+
+.item-name,
+.item-description,
+.item-date {
+    margin: 0 10px 0 0;
+}
+
+.export-button {
+    background-color: #337ab7;
+    width: 24px;
+    height: 24px;
+    color: white;
+    border: 3px solid #337ab7;
+    border-radius: 4px;
+    cursor: pointer;
+    background-image: url("../img/download.png") ;
+    background-size: cover;
+}
+
+.delete-button {
+    background-color: #337ab7;
+    width: 24px;
+    height: 24px;
+    color: white;
+    border: 3px solid #337ab7;
+    border-radius: 4px;
+    cursor: pointer;
+    background-image: url("../img/delete.png") ;
+    background-size: cover;
+}
+
+.export-button:hover {
+    background-color: #286090;
+}

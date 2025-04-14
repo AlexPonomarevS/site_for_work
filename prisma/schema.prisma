@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String @unique
+  password  String
+  email     String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      Role     @default(DEFAULT)
+}
+
+model Question {
+  id            Int      @id @default(autoincrement())
+  question      String
+  options       String[]
+  correctAnswer Int
+}
+
+model Application {
+  id          Int               @id @default(autoincrement())
+  username    String
+  name        String
+  description String
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  status      StatusApplication @default(OPEN)
+  assignedTo  String?
+
+  // Связь с заметками
+  notes       Note[]
+}
+
+model Note {
+  id            Int         @id @default(autoincrement())
+  content       String
+  createdAt     DateTime    @default(now())
+  createdBy     String      // хранится имя автора заметки
+  application   Application @relation(fields: [applicationId], references: [id])
+  applicationId Int
+}
+
+enum Role {
+  DEFAULT
+  ADMIN
+}
+
+enum StatusApplication {
+  WORK
+  CLOSED
+  OPEN
+  FORMALIZED_PGR_WAIT
+  FORMALIZED_POESO_GARANTIA
+  FORMALIZED_POESO_PGR
+  FORMALIZED_POESO_REPLACEMENT
+  FORMALIZED_POESO_CONSULTATION
+  FORMALIZED_POESO_VR_GARANTIA
+  FORMALIZED_POESO_VR_PGR
+  FORMALIZED_POESO_REPAIR_KSA_WITHOUT_ZIP
+  FORMALIZED_POESO_REPAIR_KSA_WITH_ZIP
+  FORMALIZED_DEV_REQUEST
+}
+

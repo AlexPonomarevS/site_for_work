@@ -1,0 +1,25 @@
+<header class="header">
+    <img src="../img/logo_sc10.png" alt="Логотип организации Радиоком" class="header__logo">
+    <nav class="header__menu">
+        <a href="/" class="header__menu__item">Главная</a>
+        <a href="/servicecenter" class="header__menu__item">Сервисный центр</a>
+        <a href="/trainer" class="header__menu__item">Тренажер по тестированию КОИБ-2017</a>
+        <a href="/techsupport" class="header__menu__item">Техподдержка</a>
+
+        {{!-- Ссылка «Горячая линия» показывается только если пользователь авторизован --}}
+        {{#if user}}
+            <a href="/application" class="header__menu__item">Горячая линия</a>
+        {{/if}}
+
+        {{!-- Если пользователь авторизован, показываем кнопку "Выйти", иначе – ссылку "Авторизация" --}}
+        {{#if user}}
+            <form action="/auth/logout" method="POST" class="header__menu__item" style="display:inline;">
+                <button type="submit" class="header__menu__item" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;">
+                    Выйти из учетной записи
+                </button>
+            </form>
+        {{else}}
+            <a href="/authorization" class="header__menu__item">Авторизация</a>
+        {{/if}}
+    </nav>
+</header>

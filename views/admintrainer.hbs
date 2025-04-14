@@ -1,0 +1,117 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #007bff;
+    }
+
+    form {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #0056b3;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #007bff; 
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        width: 100%;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<script>
+    async function createQuestion() {
+        const questionText = document.getElementById('question').value;
+        const options = [];
+
+        for (let i = 1; i <= 4; i++) {
+            const optionValue = document.getElementById(`option${i}`).value.trim();
+            if (optionValue) {
+                options.push(optionValue);
+            }
+        }
+
+        if (options.length < 2) {
+            alert('Пожалуйста, введите как минимум 2 варианта ответа.');
+            return;
+        }
+
+        const correctAnswer = parseInt(document.getElementById('correctAnswer').value, 10);
+
+        if (correctAnswer < 1 || correctAnswer > options.length) {
+            alert(`Правильный ответ должен быть от 1 до ${options.length}.`);
+            return;
+        }
+
+        const question = {
+            question: questionText,
+            options: options,
+            correctAnswer: correctAnswer
+        };
+
+        const response = await fetch('/trainer/question', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(question)
+        });
+
+        const result = await response.json();
+        console.log(result);
+    }
+</script>
+
+
+<div>
+    <h1>Создать Вопрос</h1>
+    <form onsubmit="event.preventDefault(); createQuestion();">
+        <label for="question">Вопрос:</label>
+        <input type="text" id="question" name="question"><br>
+        <label for="option1">Опция 1:</label>
+        <input type="text" id="option1" name="option1"><br>
+        <label for="option2">Опция 2:</label>
+        <input type="text" id="option2" name="option2"><br>
+        <label for="option3">Опция 3:</label>
+        <input type="text" id="option3" name="option3"><br>
+        <label for="option4">Опция 4:</label>
+        <input type="text" id="option4" name="option4"><br>
+        <label for="correctAnswer">Правильный Ответ (номер опции):</label>
+        <input type="number" id="correctAnswer" name="correctAnswer"><br>
+        <button type="submit">Создать Вопрос</button>
+    </form>
+</div>
