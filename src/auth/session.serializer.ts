@@ -1,3 +1,4 @@
+// src/auth/session.serializer.ts
 import { Injectable } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
 import { UserService } from '../user/user.service';

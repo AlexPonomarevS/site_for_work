@@ -1,93 +1,221 @@
-<h1>Детали заявки: {{application.name}}</h1>
-<p><strong>Описание:</strong> {{application.description}}</p>
-<p><strong>Клиент:</strong> {{application.username}}</p>
-<p><strong>Дата создания:</strong> {{application.createdAt}}</p>
-<p><strong>Статус:</strong> {{application.status}}</p>
+<style>
+  /* Общий стиль страницы */
+  body {
+    background-color: #f7f7f7;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+  }
+  h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+  }
+  h2 {
+    font-size: 22px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #34495e;
+  }
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  p strong {
+    color: #2c3e50;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #eaeaea;
+    margin: 30px 0;
+  }
 
-{{!-- Если текущий пользователь администратор, показываем форму для изменения статуса --}}
-{{#if isAdmin}}
+  /* Стиль для блока изменения статуса (виден только для администраторов) */
+  #statusBlock {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f0f9ff;
+    border: 1px solid #cce5ff;
+    border-radius: 5px;
+  }
+  #statusBlock label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    color: #2c3e50;
+  }
+  #statusBlock select {
+    width: 100%;
+    padding: 7px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  #statusBlock button {
+    display: block;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  #statusBlock button:hover {
+    background-color: #357ab8;
+  }
+
+  /* Стили для списка заметок */
+  #notesList {
+    list-style: none;
+    padding: 0;
+  }
+  #notesList li {
+    padding: 10px;
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background: #fafafa;
+  }
+  #notesList li p {
+    margin: 0 0 5px;
+  }
+  #notesList li small {
+    font-size: 14px;
+    color: #777;
+  }
+
+  /* Стиль для формы добавления заметки */
+  #noteForm {
+    margin-top: 10px;
+  }
+  #noteForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    resize: vertical;
+    min-height: 80px;
+  }
+  #noteForm button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #27ae60;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+  }
+  #noteForm button:hover {
+    background-color: #1e8c4d;
+  }
+</style>
+<body>
+<div class="container">
+  <h1>Детали заявки: {{application.name}}</h1>
+  <p><strong>Описание:</strong> {{application.description}}</p>
+  <p><strong>Клиент:</strong> {{application.username}}</p>
+  <p><strong>Дата создания:</strong> {{application.createdAt}}</p>
+  <p><strong>Статус:</strong> {{application.status}}</p>
+
+  {{#if isAdmin}}
     <div id="statusBlock">
-        <label for="statusSelect"><strong>Изменить статус:</strong></label>
-        <select id="statusSelect">
-            <option value="WORK" {{#if (eq application.status "WORK")}}selected{{/if}}>WORK</option>
-            <option value="CLOSED" {{#if (eq application.status "CLOSED")}}selected{{/if}}>CLOSED</option>
-            <option value="OPEN" {{#if (eq application.status "OPEN")}}selected{{/if}}>OPEN</option>
-            <option value="FORMALIZED_PGR_WAIT" {{#if (eq application.status "FORMALIZED_PGR_WAIT")}}selected{{/if}}>FORMALIZED_PGR_WAIT</option>
-            <option value="FORMALIZED_POESO_GARANTIA" {{#if (eq application.status "FORMALIZED_POESO_GARANTIA")}}selected{{/if}}>FORMALIZED_POESO_GARANTIA</option>
-            <option value="FORMALIZED_POESO_PGR" {{#if (eq application.status "FORMALIZED_POESO_PGR")}}selected{{/if}}>FORMALIZED_POESO_PGR</option>
-            <option value="FORMALIZED_POESO_REPLACEMENT" {{#if (eq application.status "FORMALIZED_POESO_REPLACEMENT")}}selected{{/if}}>FORMALIZED_POESO_REPLACEMENT</option>
-            <option value="FORMALIZED_POESO_CONSULTATION" {{#if (eq application.status "FORMALIZED_POESO_CONSULTATION")}}selected{{/if}}>FORMALIZED_POESO_CONSULTATION</option>
-            <option value="FORMALIZED_POESO_VR_GARANTIA" {{#if (eq application.status "FORMALIZED_POESO_VR_GARANTIA")}}selected{{/if}}>FORMALIZED_POESO_VR_GARANTIA</option>
-            <option value="FORMALIZED_POESO_VR_PGR" {{#if (eq application.status "FORMALIZED_POESO_VR_PGR")}}selected{{/if}}>FORMALIZED_POESO_VR_PGR</option>
-            <option value="FORMALIZED_POESO_REPAIR_KSA_WITHOUT_ZIP" {{#if (eq application.status "FORMALIZED_POESO_REPAIR_KSA_WITHOUT_ZIP")}}selected{{/if}}>FORMALIZED_POESO_REPAIR_KSA_WITHOUT_ZIP</option>
-            <option value="FORMALIZED_POESO_REPAIR_KSA_WITH_ZIP" {{#if (eq application.status "FORMALIZED_POESO_REPAIR_KSA_WITH_ZIP")}}selected{{/if}}>FORMALIZED_POESO_REPAIR_KSA_WITH_ZIP</option>
-            <option value="FORMALIZED_DEV_REQUEST" {{#if (eq application.status "FORMALIZED_DEV_REQUEST")}}selected{{/if}}>FORMALIZED_DEV_REQUEST</option>
-        </select>
-        <button id="updateStatusBtn">Обновить статус</button>
+      <label for="statusSelect"><strong>Изменить статус:</strong></label>
+      <select id="statusSelect">
+        <option value="WORK" {{#if (eq application.status "WORK")}}selected{{/if}}>В работе</option>
+        <option value="CLOSED" {{#if (eq application.status "CLOSED")}}selected{{/if}}>Закрыта</option>
+        <option value="OPEN" {{#if (eq application.status "OPEN")}}selected{{/if}}>Открыта</option>
+        <option value="FORMALIZED_PGR_WAIT" {{#if (eq application.status "FORMALIZED_PGR_WAIT")}}selected{{/if}}>Оформлена в ПГР ждем утверждения</option>
+        <option value="FORMALIZED_POESO_GARANTIA" {{#if (eq application.status "FORMALIZED_POESO_GARANTIA")}}selected{{/if}}>Оформлена в ПОЭСО - ГАРАНТИЯ</option>
+        <option value="FORMALIZED_POESO_PGR" {{#if (eq application.status "FORMALIZED_POESO_PGR")}}selected{{/if}}>Оформлена в ПОЭСО - ПГР</option>
+        <option value="FORMALIZED_POESO_REPLACEMENT" {{#if (eq application.status "FORMALIZED_POESO_REPLACEMENT")}}selected{{/if}}>Оформлена в ПОЭСО заменой из ОФ</option>
+        <option value="FORMALIZED_POESO_CONSULTATION" {{#if (eq application.status "FORMALIZED_POESO_CONSULTATION")}}selected{{/if}}>Оформлена в ПОЭСО консультацией</option>
+        <option value="FORMALIZED_POESO_VR_GARANTIA" {{#if (eq application.status "FORMALIZED_POESO_VR_GARANTIA")}}selected{{/if}}>Оформлена в ПОЭСО по ВР - ГАРАНТИЯ</option>
+        <option value="FORMALIZED_POESO_VR_PGR" {{#if (eq application.status "FORMALIZED_POESO_VR_PGR")}}selected{{/if}}>Оформлена в ПОЭСО по ВР - ПГР</option>
+        <option value="FORMALIZED_POESO_REPAIR_KSA_WITHOUT_ZIP" {{#if (eq application.status "FORMALIZED_POESO_REPAIR_KSA_WITHOUT_ZIP")}}selected{{/if}}>Оформлена в ПОЭСО ремонтом на КСА без ЗИП</option>
+        <option value="FORMALIZED_POESO_REPAIR_KSA_WITH_ZIP" {{#if (eq application.status "FORMALIZED_POESO_REPAIR_KSA_WITH_ZIP")}}selected{{/if}}>Оформлена в ПОЭСО ремонтом на КСА с ЗИП</option>
+        <option value="FORMALIZED_DEV_REQUEST" {{#if (eq application.status "FORMALIZED_DEV_REQUEST")}}selected{{/if}}>Оформлена заявка разработчику</option>
+      </select>
+      <button id="updateStatusBtn">Обновить статус</button>
     </div>
-{{/if}}
+  {{/if}}
 
-<hr>
+  <hr>
 
-<h2>Заметки</h2>
-<ul id="notesList">
+  <h2>Заметки</h2>
+  <ul id="notesList">
     {{#if application.notes}}
-        {{#each application.notes}}
-            <li>
-                <p>{{this.content}}</p>
-                <small>Автор: {{this.createdBy}} | {{this.createdAt}}</small>
-            </li>
-        {{/each}}
+      {{#each application.notes}}
+        <li>
+          <p>{{this.content}}</p>
+          <small>Автор: {{this.createdBy}} | {{this.createdAt}}</small>
+        </li>
+      {{/each}}
     {{else}}
-        <p>Нет заметок для этой заявки</p>
+      <p>Нет заметок для этой заявки</p>
     {{/if}}
-</ul>
+  </ul>
 
-<hr>
+  <hr>
 
-<h2>Добавить заметку</h2>
-<form id="noteForm">
+  <h2>Добавить заметку</h2>
+  <form id="noteForm">
     <textarea id="noteContent" placeholder="Введите заметку" required></textarea>
     <button type="submit">Добавить заметку</button>
-</form>
+  </form>
+</div>
 
 <script>
-    // Обработчик формы для добавления заметки (как ранее)
-    document.getElementById('noteForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-        const content = document.getElementById('noteContent').value;
-        const applicationId = "{{application.id}}";
-        const response = await fetch(`/applications/${applicationId}/notes`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content })
-        });
-        if (response.ok) {
-            location.reload();
-        } else {
-            alert('Ошибка при добавлении заметки');
-        }
+  // Обработчик формы для добавления заметки
+  document.getElementById('noteForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const content = document.getElementById('noteContent').value;
+    const applicationId = "{{application.id}}";
+    const response = await fetch(`/applications/${applicationId}/notes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content })
     });
-
-    // Обработчик для обновления статуса
-    const updateStatusBtn = document.getElementById('updateStatusBtn');
-    if (updateStatusBtn) {
-        updateStatusBtn.addEventListener('click', async function() {
-            const select = document.getElementById('statusSelect');
-            const newStatus = select.value;
-            const applicationId = "{{application.id}}";
-            const response = await fetch(`/applications/${applicationId}/status`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: newStatus })
-            });
-            if (response.ok) {
-                // Можно показать уведомление или обновить страницу
-                alert('Статус обновлён');
-                location.reload();
-            } else {
-                alert('Ошибка при обновлении статуса');
-            }
-        });
+    if (response.ok) {
+      location.reload();
+    } else {
+      alert('Ошибка при добавлении заметки');
     }
+  });
+
+  // Обработчик для обновления статуса
+  const updateStatusBtn = document.getElementById('updateStatusBtn');
+  if (updateStatusBtn) {
+    updateStatusBtn.addEventListener('click', async function() {
+      const select = document.getElementById('statusSelect');
+      const newStatus = select.value;
+      const applicationId = "{{application.id}}";
+      const response = await fetch(`/applications/${applicationId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (response.ok) {
+        alert('Статус обновлён');
+        location.reload();
+      } else {
+        alert('Ошибка при обновлении статуса');
+      }
+    });
+  }
 </script>
+</body>
