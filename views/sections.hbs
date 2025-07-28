@@ -1,0 +1,42 @@
+<style>
+  .card__button {
+    padding: 0.5em 1em;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+  }
+
+  .card__button.active {
+    background: #007bff;
+    color: white;
+    border-color: #0056b3;
+  }
+
+</style><h2>Горячая линия</h2>
+
+<main class="service__menu">
+  <button type="button" class="card__button" data-section="ALL">
+    Все заявки
+  </button>
+  <button type="button" class="card__button" data-section="PGR">
+    ПГР
+  </button>
+  <button type="button" class="card__button" data-section="ARCHIVE">
+    Архив
+  </button>
+  <button type="button" class="card__button" data-section="GARANTIA_IBP">
+    Гарантийные ИБП
+  </button>
+  <button type="button" class="card__button" data-section="GARANTIA">
+    Гарантия (остальное)
+  </button>
+</main>
+
+<h1 class="app__title">Список заявок</h1>
+<ul class="list__app"></ul>
+
+<!--<script>-->
+<!--  // Сервер передаёт isAdmin из контроллера в контекст Handlebars-->
+<!--  window.isAdmin = {{#if isAdmin}}true{{else}}false{{/if}};-->
+<!--</script>-->
+<script src="../scripts/listAppNew.js"></script>

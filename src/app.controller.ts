@@ -13,7 +13,11 @@ export class AppController {
   @Get('/servicecenter')
   @Render('servicecenter')
   getServicePage(@Req() req: Request) {
-    return { title: 'ServiceCenter', pageType: 'servicecenter', user: req.user };
+    return {
+      title: 'ServiceCenter',
+      pageType: 'servicecenter',
+      user: req.user,
+    };
   }
 
   @Get('/trainer')
@@ -25,13 +29,21 @@ export class AppController {
   @Get('/techsupport')
   @Render('techsupport')
   getTechsupportPage(@Req() req: Request) {
-    return { title: 'Technical support', pageType: 'techsupport', user: req.user };
+    return {
+      title: 'Technical support',
+      pageType: 'techsupport',
+      user: req.user,
+    };
   }
 
   @Get('/authorization')
   @Render('authorization')
   getAuthorizationPage(@Req() req: Request) {
-    return { title: 'Authorization', pageType: 'authorization', user: req.user };
+    return {
+      title: 'Authorization',
+      pageType: 'authorization',
+      user: req.user,
+    };
   }
 
   @Get('/servicecenter/activity')
@@ -43,13 +55,21 @@ export class AppController {
   @Get('/servicecenter/certificatessc')
   @Render('certificatessc')
   getCertificatesSCPage(@Req() req: Request) {
-    return { title: 'CertificatesSC', pageType: 'certificatessc', user: req.user };
+    return {
+      title: 'CertificatesSC',
+      pageType: 'certificatessc',
+      user: req.user,
+    };
   }
 
   @Get('/servicecenter/authorizationsc')
   @Render('authorizationsc')
   getAuthorizationSCPage(@Req() req: Request) {
-    return { title: 'AuthorizationSC', pageType: 'authorizationsc', user: req.user };
+    return {
+      title: 'AuthorizationSC',
+      pageType: 'authorizationsc',
+      user: req.user,
+    };
   }
 
   @Get('/servicecenter/gratitudes')
@@ -111,5 +131,11 @@ export class AppController {
   @Render('registration')
   getRegistrationPage(@Req() req: Request) {
     return { title: 'Registration', pageType: 'registration', user: req.user };
+  }
+
+  @Get('/sections')
+  @Render('sections')
+  getSectionsPage(@Req() req: Request) {
+    return { title: 'Sections', pageType: 'sections', user: req.user };
   }
 }

@@ -32,7 +32,7 @@ async function fetchApplications() {
                 // Кнопка экспорта в Excel
                 const exportButton = document.createElement('button');
                 exportButton.classList.add('export-button');
-                exportButton.textContent = 'Экспорт';
+                exportButton.textContent = '';
                 exportButton.dataset.application = JSON.stringify(application);
                 exportButton.addEventListener('click', async (evt) => {
                     evt.stopPropagation();  // не пускаем событие клика на родительский li
@@ -57,7 +57,7 @@ async function fetchApplications() {
                 // Кнопка удаления заявки
                 const deleteButton = document.createElement('button');
                 deleteButton.classList.add('delete-button');
-                deleteButton.textContent = 'Удалить';
+                deleteButton.textContent = '';
                 deleteButton.dataset.application = JSON.stringify(application);
                 deleteButton.addEventListener('click', async (evt) => {
                     // Предотвращаем всплытие события клика на родительский элемент

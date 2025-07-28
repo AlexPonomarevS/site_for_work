@@ -5,15 +5,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
-    @Post('register')
-    async createUser(@Body() createUserDto: CreateUserDto) {
-        const userId = this.userService.createUser(
-            createUserDto.name,
-            createUserDto.email,
-            createUserDto.password,
-        );
-        return { message: 'Registration successful!', userId };
-    }
+  @Post('register')
+  async createUser(@Body() createUserDto: CreateUserDto) {
+    const userId = this.userService.createUser(
+      createUserDto.name,
+      createUserDto.email,
+      createUserDto.password,
+    );
+    return { message: 'Registration successful!', userId };
+  }
 }

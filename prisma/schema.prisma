@@ -15,9 +15,9 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  name      String @unique
+  name      String   @unique
   password  String
-  email     String @unique
+  email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   role      Role     @default(DEFAULT)
@@ -39,16 +39,17 @@ model Application {
   updatedAt   DateTime          @updatedAt
   status      StatusApplication @default(OPEN)
   assignedTo  String?
+  section     Section           @default(DEFAULT)
 
   // Связь с заметками
-  notes       Note[]
+  notes Note[]
 }
 
 model Note {
   id            Int         @id @default(autoincrement())
   content       String
   createdAt     DateTime    @default(now())
-  createdBy     String      // хранится имя автора заметки
+  createdBy     String // хранится имя автора заметки
   application   Application @relation(fields: [applicationId], references: [id])
   applicationId Int
 }
@@ -74,3 +75,10 @@ enum StatusApplication {
   FORMALIZED_DEV_REQUEST
 }
 
+enum Section {
+  DEFAULT
+  PGR
+  ARCHIVE
+  GARANTIA
+  GARANTIA_IBP
+}

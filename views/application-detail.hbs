@@ -76,6 +76,42 @@
     background-color: #357ab8;
   }
 
+  #sectionBlock {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f0f9ff;
+    border: 1px solid #cce5ff;
+    border-radius: 5px;
+  }
+  #sectionBlock label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    color: #2c3e50;
+  }
+  #sectionBlock select {
+    width: 100%;
+    padding: 7px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  #sectionBlock button {
+    display: block;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  #sectionBlock button:hover {
+    background-color: #357ab8;
+  }
+
   /* Стили для списка заметок */
   #notesList {
     list-style: none;
@@ -154,6 +190,20 @@
     </div>
   {{/if}}
 
+  {{#if isAdmin}}
+    <div id="sectionBlock">
+      <label for="sectionSelect"><strong>Изменить раздел:</strong></label>
+      <select id="sectionSelect">
+        <option value="DEFAULT" {{#if (eq application.section "DEFAULT")}}selected{{/if}}>Горячая линия</option>
+        <option value="PGR" {{#if (eq application.section "PGR")}}selected{{/if}}>ПГР</option>
+        <option value="GARANTIA" {{#if (eq application.section "GARANTIA")}}selected{{/if}}>Гарантия</option>
+        <option value="GARANTIA_IBP" {{#if (eq application.section "GARANTIA_IBP")}}selected{{/if}}>Гарантия ИБП</option>
+        <option value="ARCHIVE" {{#if (eq application.section "ARCHIVE")}}selected{{/if}}>Архив</option>
+      </select>
+      <button id="updateSectionBtn">Обновить раздел</button>
+    </div>
+  {{/if}}
+
   <hr>
 
   <h2>Заметки</h2>
@@ -203,6 +253,7 @@
     updateStatusBtn.addEventListener('click', async function() {
       const select = document.getElementById('statusSelect');
       const newStatus = select.value;
+      console.log(JSON.stringify({ status: newStatus }));
       const applicationId = "{{application.id}}";
       const response = await fetch(`/applications/${applicationId}/status`, {
         method: 'PUT',
@@ -211,9 +262,30 @@
       });
       if (response.ok) {
         alert('Статус обновлён');
-        location.reload();
+        // location.reload();
       } else {
         alert('Ошибка при обновлении статуса');
+      }
+    });
+  }
+
+  const updateSectionBtn = document.getElementById('updateSectionBtn');
+  if (updateSectionBtn) {
+    updateSectionBtn.addEventListener('click', async function() {
+      const select = document.getElementById('sectionSelect');
+      const newSection = select.value;
+      console.log(JSON.stringify({ section: newSection }));
+      const applicationId = "{{application.id}}";
+      const response = await fetch(`/applications/${applicationId}/section`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ section: newSection })
+      });
+      if (response.ok) {
+        alert('Раздел обновлён');
+        // location.reload();
+      } else {
+        alert('Ошибка при обновлении раздела');
       }
     });
   }
