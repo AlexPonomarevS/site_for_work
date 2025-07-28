@@ -8,7 +8,7 @@ document.getElementById('applicationForm').addEventListener('submit', async (eve
     console.log(JSON.stringify({ name: name, description: description }));
 
     try {
-        const response = await fetch('http://localhost:3000/applications/create-application', {
+        const response = await fetch('/applications/create-application', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 async function fetchApplications() {
     try {
-        const response = await fetch('http://localhost:3000/applications');
+        const response = await fetch('/applications');
         if (response.ok) {
             const applications = await response.json();
             const list = document.querySelector('ul');
@@ -38,7 +38,7 @@ async function fetchApplications() {
                     evt.stopPropagation();  // не пускаем событие клика на родительский li
                     try {
                         const applicationId = application.id;
-                        const response = await fetch(`http://localhost:3000/applications/export-to-excel/${applicationId}`);
+                        const response = await fetch(`/applications/export-to-excel/${applicationId}`);
                         if (response.ok) {
                             const blob = await response.blob();
                             const url = window.URL.createObjectURL(blob);
@@ -64,7 +64,7 @@ async function fetchApplications() {
                     evt.stopPropagation();
                     try {
                         const applicationId = application.id;
-                        const response = await fetch(`http://localhost:3000/applications/delete/${applicationId}`, {
+                        const response = await fetch(`/applications/delete/${applicationId}`, {
                             method: 'DELETE'
                         });
                         if (response.ok) {

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Загрузить все заявки и сразу отрисовать полный список
   async function loadApplications() {
     try {
-      const res = await fetch('http://localhost:3000/applications');
+      const res = await fetch('/applications');
       if (!res.ok) throw new Error(res.statusText);
       applications = await res.json();
       renderList(applications);
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       expBtn.addEventListener('click', async (evt) => {
         evt.stopPropagation();
         const res = await fetch(
-          `http://localhost:3000/applications/export-to-excel/${app.id}`,
+          `/applications/export-to-excel/${app.id}`,
         );
         if (res.ok) {
           const blob = await res.blob();
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       delBtn.addEventListener('click', async (evt) => {
         evt.stopPropagation();
         const res = await fetch(
-          `http://localhost:3000/applications/delete/${app.id}`,
+          `/applications/delete/${app.id}`,
           { method: 'DELETE' },
         );
         if (res.ok) {
